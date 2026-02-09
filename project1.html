@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Project 1 | CTD Sound Speed Workflow</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap 3 -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+  <!-- jQuery + Bootstrap JS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <!-- Prism syntax highlighting (CSS + JS) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+
+  <!-- (Prop 3) Optional better font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* =========================================================
+       Propositions 1–5 applied:
+       1) Modern look via CSS-only polish (cards, shadows, colors)
+       2) Compact spacing (reduced default margins)
+       3) Optional better font (Inter)
+       4) Professional polish (navbar, max-width)
+       5) Structural correctness (fixed missing closing </div>)
+       ========================================================= */
+
+    :root{
+      --bg: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #e5e7eb;
+      --soft: #f8fafc;
+      --shadow: 0 8px 24px rgba(0,0,0,.06);
+    }
+
+    body{
+      padding-top: 70px;
+      color: var(--text);
+      background: var(--bg);
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* (Prop 4) Limit line length for readability */
+    .container{ max-width: 980px; }
+
+    /* (Prop 2) Compact vertical rhythm */
+    section{ padding: 28px 0; }
+    p{ margin: 0 0 10px; }
+    ul{ margin-bottom: 10px; }
+    hr{ border-top: 1px solid var(--border); margin: 24px 0; }
+
+    h1{ font-weight: 700; letter-spacing: -0.02em; margin: 0 0 6px; }
+    h2{ font-weight: 700; margin-top: 10px; padding-top: 6px; }
+    h3{ font-weight: 700; margin-top: 0; }
+
+    .muted{ color: var(--muted); }
+
+    /* (Prop 1) Hero image card feel */
+    .hero-img{
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    /* --- Auto-numbered steps (kept) + (Prop 1) step cards --- */
+    .steps{ counter-reset: step; }
+    .step{
+      counter-increment: step;
+      margin-bottom: 22px;
+      padding: 18px 18px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: #fff;
+      box-shadow: 0 2px 12px rgba(0,0,0,.03);
+    }
+    .step h3:before{
+      content: counter(step) ") ";
+      font-weight: 800;
+      color: #111827;
+    }
+    .step img{ margin: 12px 0; }
+
+    /* --- Collapsible code block (details/summary) --- */
+    .code-toggle summary{
+      cursor: pointer;
+      font-weight: 700;
+      margin: 8px 0;
+      outline: none;
+      color: #111827;
+    }
+    .code-toggle summary:hover{ text-decoration: none; opacity: .85; }
+    .code-toggle[open] summary{ margin-bottom: 10px; }
+
+    /* --- Prism code block styling (Prop 1) --- */
+    pre[class*="language-"]{
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 12.5px;
+      line-height: 1.45;
+      overflow-x: auto;
+      margin: 10px 0 0;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.6);
+    }
+
+    /* --- Explanation box (Prop 1) --- */
+    .explain{
+      background: var(--soft);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-top: 10px;
+    }
+    .explain .title{
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .explain ul{ margin-bottom: 0; }
+
+    /* ===== 2x2 image grid + hover polish (Prop 1) ===== */
+    .map-grid .thumb{
+      margin-bottom: 10px;
+      cursor: zoom-in;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      box-shadow: 0 6px 18px rgba(0,0,0,.06);
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    .map-grid .thumb:hover{
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(0,0,0,.10);
+    }
+
+    /* (Prop 1) Panel polish to match cards */
+    .panel{
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 2px 14px rgba(0,0,0,.04);
+      overflow: hidden;
+    }
+    .panel-default > .panel-heading{
+      background: var(--soft);
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* (Prop 4) Navbar polish */
+    .navbar-inverse{
+      background: #111827;
+      border-color: #111827;
+    }
+    .navbar-inverse .navbar-brand,
+    .navbar-inverse .navbar-nav>li>a{
+      color: #e5e7eb;
+    }
+    .navbar-inverse .navbar-nav>li>a:hover{
+      color: #ffffff;
+    }
+
+    footer{
+      background: var(--soft);
+      border-top: 1px solid var(--border);
+      padding: 18px;
+      margin-top: 22px;
+    }
+
+    /* Modal polish */
+    #imgModal .modal-dialog{
+      width: 95%;
+      max-width: 1100px;
+    }
+    #imgModal .modal-content{
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    #imgModal .modal-header{
+      border-bottom: 1px solid var(--border);
+      background: var(--soft);
+    }
+    #imgModalImg{
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+    #imgModalCaption{
+      margin-top: 10px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="index.html">← Back</a>
+    </div>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="https://github.com/YOURUSERNAME/YOURREPO" target="_blank">Repo</a></li>
+    </ul>
+  </div>
+</nav>
+
+<section class="container">
+  <h1>Deriving Sound Speed from Open-Source CTD Profiles</h1>
+  <p class="muted">
+    Tools: Python • (optional) Postgres/PostGIS • QGIS • Sound-speed equations (UNESCO / Del Grosso / Leroy / Mackenzie)
+  </p>
+
+  <img src="images/UNESCO_Derived.jpeg" class="img-responsive hero-img" alt="Project result map">
+
+  <hr>
+
+  <h2>Goal</h2>
+  <p>
+    For this project I wanted to process a large number of CTD files in CSV format, remove all irrelevant data
+    and calculate the sound speed in the water column based on several sound speed formulas:
+    Mackenzie, UNESCO, Del Grosso and Leroy.
+  </p>
+  <p>
+    We can divide this project into three phases:
+  </p>
+  <ul>
+    <li>PostgreSQL ETL workflow</li>
+    <li>Python for sound speed equations and geospatial data generation</li>
+    <li>Chart making in QGIS</li>
+  </ul>
+
+  <hr>
+
+  <h2>Workflow</h2>
+
+  <!-- Wrap all steps in .steps for auto-numbering -->
+  <div class="steps">
+
+    <div class="step">
+      <h3>PostgreSQL (Data cleaning / ETL)</h3>
+
+      <p>
+        The downloaded CTD files contained many irrelevant columns. The easiest way for me to clean/reshape the data
+        was to load everything into Postgres and format it there.
+      </p>
+
+      <p>
+        Importing the CTD profile was returning empty columns in Postgres, so I created an “all text” table as a
+        placeholder before typing the cleaned table correctly:
+      </p>
+
+      <ul>
+        <li>Create a placeholder table with data type <code>TEXT</code> for all columns</li>
+        <li>Create a new empty table with the correct column names and data types</li>
+        <li>Import data into the new table</li>
+        <li>Join/select relevant columns and export the cleaned dataset</li>
+      </ul>
+
+      <img src="images/Unprocessed_CTD.jpeg" class="img-responsive hero-img" alt="RAW CTD CSV file">
+      <img src="images/Processed_CTD.jpeg" class="img-responsive hero-img" alt="Processed CTD CSV file">
+
+      <p class="muted">A before and after of one of my ctd profiles</p>
+    </div>
+
+    <div class="step">
+      <h3>Python (Projection + geospatial fields)</h3>
+
+      <p>
+        The CTD files were originally positioned in latitude and longitude.
+        I converted these to a projected coordinate system using the
+        <code>Transformer</code> Since projected coordinates make distance-based steps (interpolation/QC) more robust.
+      </p>
+
+      <div class="row">
+        <!-- LEFT: Collapsible highlighted code -->
+        <div class="col-sm-7">
+          <details class="code-toggle">
+            <summary>Show code (WGS84 → UTM)</summary>
+
+            <pre class="language-python"><code class="language-python">from pyproj import Transformer
+import csv
+
+# WGS84 (lat/lon) -> UTM Zone 11N (meters)
+origin_crs = "EPSG:4326"
+target_crs = "EPSG:32611"
+transformer = Transformer.from_crs(origin_crs, target_crs, always_xy=True)
+
+for i in ctd_files:
+    with open(i, "r", encoding="utf-8", newline="") as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
+
+        if not rows:
+            print("Empty file:", i)
+            continue
+
+        for r in rows:
+            lon = float(r["longitude"])
+            lat = float(r["latitude"])
+            e, n = transformer.transform(lon, lat)
+
+            r["easting"] = e
+            r["northing"] = n</code></pre>
+          </details>
+        </div>
+
+        <!-- RIGHT: Inline explanations -->
+        <div class="col-sm-5">
+          <div class="explain">
+            <div class="title">Notes</div>
+            <ul>
+              <li><strong>Origin CRS</strong> = EPSG 4326 WGS84 (degrees).</li>
+              <li><strong>Target CRS</strong> = EPSG 32611 UTM Zone 11N (meters).</li>
+              <li><code>always_xy=True</code> forces the order <em>lon, lat</em>.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <h3>Sound speed calculation (multiple equations)</h3>
+
+      <p>
+        With cleaned CTD fields (T, S, pressure/depth), I computed sound speed using multiple equations
+        and exported outputs for comparison.
+      </p>
+
+      <ul>
+        <li>Compute sound speed using multiple formulas (UNESCO, Del Grosso, Leroy, Mackenzie).</li>
+        <li>Export results per cast and/or per formula to compare differences.</li>
+      </ul>
+    </div> <!-- (Prop 5) FIXED: properly closed the step -->
+
+    <div class="step">
+      <h3>Interpolation and Geotiff generation</h3>
+
+      <p>
+        To generate the geotiffs for this sample data I used a linear Delauney Triangulation, while it does work by itself,
+        I found that applying a Gaussian filter helped smooth hard boundaries in the interpolated data.  One can correlate currents
+        of cold water with lower speed values, but most importantly, it allows me to visually compare sound speed values
+        between the several proposed equations at different depths. Which realistically, was the thing I was the most interested in.
+      </p>
+
+      <div class="panel panel-default">
+        <div class="panel-heading text-center">
+          <strong>Sound Speed at 20 meters of depth</strong>
+        </div>
+
+        <div class="panel-body">
+          <p class="text-center muted" style="margin-bottom: 15px;">
+            Comparison between UNESCO, Del Grosso, Leroy and Mackenzie sound speed formulations
+          </p>
+
+          <!-- ===== TIFF 2x2 GRID ===== -->
+          <div class="row map-grid">
+
+            <div class="col-sm-6">
+              <img src="images/UNESCO_Derived.jpeg"
+                   class="img-responsive thumb"
+                   alt="UNESCO sound speed map"
+                   data-title="UNESCO Equation"
+                   onclick="openImgModal(this)">
+              <p class="text-center muted">UNESCO Equation</p>
+            </div>
+
+            <div class="col-sm-6">
+              <img src="images/DelGrosso_Derived.jpeg"
+                   class="img-responsive thumb"
+                   alt="Del Grosso sound speed map"
+                   data-title="Del Grosso Equation"
+                   onclick="openImgModal(this)">
+              <p class="text-center muted">Del Grosso Equation</p>
+            </div>
+
+            <!-- Force new row after 2 columns (Bootstrap 3 fix) -->
+            <div class="clearfix visible-sm-block visible-md-block visible-lg-block"></div>
+
+            <div class="col-sm-6">
+              <img src="images/Leroy_Derived.jpeg"
+                   class="img-responsive thumb"
+                   alt="Leroy sound speed map"
+                   data-title="Leroy Equation"
+                   onclick="openImgModal(this)">
+              <p class="text-center muted">Leroy Equation</p>
+            </div>
+
+            <div class="col-sm-6">
+              <img src="images/Mackenzie_Derived.jpeg"
+                   class="img-responsive thumb"
+                   alt="Mackenzie sound speed map"
+                   data-title="Mackenzie Equation"
+                   onclick="openImgModal(this)">
+              <p class="text-center muted">Mackenzie Equation</p>
+            </div>
+
+          </div> <!-- /.row map-grid -->
+        </div> <!-- /.panel-body -->
+      </div> <!-- /.panel -->
+
+      <details class="code-toggle">
+        <summary>Show notes (interpolation choices)</summary>
+        <pre class="language-python"><code class="language-python"># Typical options:
+# - IDW (fast, intuitive)
+# - TIN / Natural Neighbor (good for irregular sampling)
+# - Kriging (more advanced; model-based, needs variogram choices)</code></pre>
+      </details>
+    </div>
+
+    <div class="step">
+      <h3>Results & QC</h3>
+
+      <ul>
+        <li>Compare formulas (differences vs depth / temperature / salinity).</li>
+        <li>Check sensitivity: where do equations diverge most?</li>
+        <li>Document assumptions and known limitations.</li>
+      </ul>
+
+      <div class="explain">
+        <div class="title">QC ideas (easy wins)</div>
+        <ul>
+          <li>Plot <code>Δc</code> between formulas vs depth to see divergence zones.</li>
+          <li>Flag outliers where CTD values exceed realistic ranges.</li>
+          <li>Track min/mean/max sound speed per cast to catch bad casts fast.</li>
+        </ul>
+      </div>
+    </div>
+
+  </div><!-- /.steps -->
+
+  <hr>
+
+  <h2>Links</h2>
+  <ul>
+    <li><a href="https://github.com/YOURUSERNAME/YOURREPO" target="_blank">GitHub repository</a></li>
+    <li><a href="index.html">Back to homepage</a></li>
+  </ul>
+</section>
+
+<footer class="container-fluid text-center">
+  <p>© <span id="year"></span> Eduardo Ribeiro</p>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+<!-- ===== Image Zoom Modal ===== -->
+<div id="imgModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="imgModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title" id="imgModalLabel">Map</h4>
+      </div>
+
+      <div class="modal-body">
+        <img id="imgModalImg" src="" alt="Zoomed map">
+        <p id="imgModalCaption" class="text-center"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openImgModal(imgEl) {
+    var src = imgEl.getAttribute("src");
+    var title = imgEl.getAttribute("data-title") || imgEl.getAttribute("alt") || "Map";
+
+    document.getElementById("imgModalImg").src = src;
+    document.getElementById("imgModalLabel").textContent = title;
+    document.getElementById("imgModalCaption").textContent = title;
+
+    $('#imgModal').modal('show');
+  }
+</script>
+
+</body>
+</html>
