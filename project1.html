@@ -400,7 +400,6 @@ def c_mackenzie(T, S, z):
 <details class="code-toggle">
   <summary>UNESCO</summary>
   <pre class="language-python"><code class="language-python">def sound_speed_unesco(T, S, P):
-   # Pure water sound speed at atmospheric pressure
     Cw = (1402.388 +
           5.03830 * T -
           5.81090e-2 * T**2 +
@@ -408,7 +407,6 @@ def c_mackenzie(T, S, z):
           1.47797e-6 * T**4 +
           3.1419e-9 * T**5)
 
-    # Pressure correction to pure water sound speed
     A = (1.389 -
          1.262e-2 * T +
          7.164e-5 * T**2 +
@@ -502,7 +500,7 @@ def c_mackenzie(T, S, z):
 </details>
 
       </details>
-    </div> <!-- (Prop 5) FIXED: properly closed the step -->
+    </div>
 
     <div class="step">
       <h3>Interpolation and Geotiff generation</h3>
